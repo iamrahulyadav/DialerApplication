@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.codemaven3015.dialerapplication.Call_Details">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="8234242380"
+        android:gravity="center"
+        android:textSize="@dimen/mediumFontL"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Call Start Time:- 08:05:29"
+        android:gravity="center"
+        android:textSize="@dimen/mediumFontL"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Call Duration:- 01:05:29"
+        android:gravity="center"
+        android:textSize="@dimen/mediumFontL"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date:- 20/01/1994"
+        android:gravity="center"
+        android:textSize="@dimen/mediumFontL"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Call Recording"
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="@dimen/largeFont"
+        android:textColor="@color/white"
+        android:background="@color/green"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Call Recording"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:padding="8dp"
+                android:textSize="@dimen/mediumFontL"
+                android:textColor="@color/black"
+                android:background="@color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Intrested"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="@dimen/mediumFontL"
+                android:textColor="@color/black"
+                android:background="@color/white"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+       android:gravity="center"
+        android:padding="10dp">
+
+    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Not Intrested"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="@dimen/mediumFontL"
+                android:textColor="@color/black"
+                android:background="@color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Call Later"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="@dimen/mediumFontL"
+                android:textColor="@color/black"
+                android:background="@color/white"/>
+
+
+        </LinearLayout>
+    <Button
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Submit"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="@dimen/largeFont"
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:layout_marginBottom="30dp"/>
+</LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

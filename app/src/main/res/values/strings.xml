@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">DialerApplication</string>
+    <string name="app_name">Dialer_app</string>
+    <string name="account">Don\'t have an account?</string>
+    <string name="sign">Sign up Now?</string>
+    <string name="sign_in">Sign in?</string>
+    <string name="already_acc">already have an account?</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
