@@ -1,5 +1,6 @@
 package com.example.codemaven3015.dialerapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,8 +8,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TableLayout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,15 +74,34 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Intent i;
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_missed) {
+            i = new Intent(MainActivity.this,Missed_Call.class);
+            startActivity(i);
+        } else if (id == R.id.nav_synch) {
+            View popupView = getLayoutInflater().inflate(R.layout.sych_popup,
+                    null);
 
-        } else if (id == R.id.nav_slideshow) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    (width/3)*2,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
 
-        } else if (id == R.id.nav_manage) {
+            popupWindow.setTouchable(true);
+            popupWindow.setFocusable(true);
+
+            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+
+        } else if (id == R.id.nav_setting) {
+
+        } else if (id == R.id.nav_logout) {
 
         }
 
