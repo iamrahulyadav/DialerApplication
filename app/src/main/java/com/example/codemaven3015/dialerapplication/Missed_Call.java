@@ -1,20 +1,38 @@
 package com.example.codemaven3015.dialerapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Missed_Call extends AppCompatActivity implements View.OnClickListener {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Missed_Call extends AppCompatActivity  {
 
     String phone_number = "";
 
@@ -22,9 +40,55 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_missed__call);
-        init();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setLogoutClick();
+        callMissCallAPI();
+
     }
-    public void init(){
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //will be executed onResume
+    }
+
+    private void setLogoutClick() {
+        ImageButton logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    private void callMissCallAPI() {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url ="http://192.168.0.116:8888/Dialer_service/REST/webservice/GetContactDetail";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.e("my app", "123"+response);
+                try {
+                    init(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("my app", "123"+error.toString());
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public void init(JSONArray jsonArray) throws JSONException {
         TableLayout stk = (TableLayout) findViewById(R.id.table);
 
         TableRow tbrow0 = new TableRow(this);
@@ -68,7 +132,8 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
         tv3.setBackground(getResources().getDrawable(R.drawable.border_fill));
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
 
             TableRow tBLine = new TableRow(this);
             //View line = new View(this);
@@ -89,16 +154,28 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
             tbrow.addView(t1v);
             TextView t2v = new TextView(this);
             t2v.setLayoutParams(lp);
-            t2v.setText("989898989" + i);
+            //t2v.setText("989898989" + i);
+            t2v.setText(obj.getString("phone"));
             t2v.setTextColor(Color.BLUE);
             t2v.setGravity(Gravity.CENTER);
             t2v.setPadding(0,30,0,30);
             t2v.setBackground(getResources().getDrawable(R.drawable.border));
-            t2v.setOnClickListener(Missed_Call.this);
+            t2v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView tv = (TextView) v;
+                    //askPermissionForCall(tv.getText().toString());
+                    Contact_Us contact_us = new Contact_Us(getApplicationContext());
+                    contact_us.callNow(tv.getText().toString());
+                }
+            });
             tbrow.addView(t2v);
             TextView t3v = new TextView(this);
             t3v.setLayoutParams(lp);
-            t3v.setText("Rs." + i);
+            //
+             String date = (obj.getString("dtcontactSeen"));
+            String substr=date.substring(date.length()-11);
+            t3v.setText(substr);
             t3v.setTextColor(Color.BLACK);
             t3v.setGravity(Gravity.CENTER);
             t3v.setPadding(0,30,0,30);
@@ -106,7 +183,8 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
             tbrow.addView(t3v);
             TextView t4v = new TextView(this);
             t4v.setLayoutParams(lp);
-            t4v.setText("" + i * 15 / 32 * 10);
+
+            t4v.setText(obj.getString("status"));
             t4v.setTextColor(Color.BLUE);
             t4v.setGravity(Gravity.CENTER);
             t4v.setPadding(0,30,0,30);
@@ -125,11 +203,7 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
         }
 }
 
-    @Override
-    public void onClick(View v) {
-        TextView tv = (TextView)v;
-        askPermissionForCall(tv.getText().toString());
-    }
+
 
     private void askPermissionForCall(String phone) {
         phone_number = phone;
@@ -158,5 +232,29 @@ public class Missed_Call extends AppCompatActivity implements View.OnClickListen
 
 
         }
+    }
+    public void logout(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //builder.setCancelable(true);
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure yo want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(Missed_Call.this , Login.class);
+                startActivity(i);
+            }
+        });
+        builder.setNegativeButton("No", null);
+        //builder.show();
+        AlertDialog dialog1 = builder.create();
+        dialog1.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Window view = ((AlertDialog)dialog).getWindow();
+                view.setBackgroundDrawableResource(R.color.white);
+            }
+        });
+        dialog1.show();
     }
 }

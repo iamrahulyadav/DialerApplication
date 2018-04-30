@@ -16,19 +16,24 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            app:srcCompat="@mipmap/ic_launcher_round" />
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:background="@color/icon_background">
                 <ImageView
                     android:layout_width="25dp"
@@ -39,15 +44,20 @@
                     android:background="@drawable/user"
                     android:scaleType="fitCenter" /></LinearLayout>
             <EditText
+                android:id="@+id/userNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="User Name"
                 android:background="@color/grey_light"
-                android:textAlignment="center"/>
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
@@ -57,6 +67,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:background="@color/icon_background">
                 <ImageView
                     android:layout_width="25dp"
@@ -67,35 +79,44 @@
                     android:background="@drawable/password"
                     android:scaleType="fitCenter" /></LinearLayout>
             <EditText
+                android:id="@+id/userPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Password"
                 android:background="@color/grey_light"
                 android:inputType="textPassword"
-                android:textAlignment="center"/>
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="10dp">
 
             <CheckBox
+                android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
                 android:text="Remember me"
-                android:textSize="10sp" />
+                android:layout_alignParentLeft="true"
+                android:textSize="14sp" />
 
             <TextView
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
+                android:layout_alignParentRight="true"
                 android:text="forget Password?"
                 android:textAlignment="center"
-                android:textSize="10sp" />
-        </LinearLayout>
+                android:textSize="14sp" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/login_btn"
@@ -111,24 +132,25 @@
 
         <LinearLayout
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:paddingTop="5dp"
             android:orientation="horizontal"
             android:paddingBottom="10dp">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/account"
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:textColor="@color/yellow"/>
         </LinearLayout>
     </LinearLayout>
