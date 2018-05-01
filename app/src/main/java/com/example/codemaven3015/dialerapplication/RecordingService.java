@@ -26,6 +26,7 @@ public class RecordingService extends Service {
     AudioManager audioManager;
     private boolean recordstarted = false;
     private File file;
+    CharSequence sdf;
     String path="sdcard/alarms/";
     @Nullable
     @Override
@@ -36,14 +37,7 @@ public class RecordingService extends Service {
     public int onStartCommand(Intent intent,int flags,int startId) {
 
       file= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        Date date=new Date();
-        CharSequence sdf= DateFormat.format("MM-dd-YY-hh-mm-ss",date.getTime());
-        rec=new MediaRecorder();
-        rec.setAudioSource(MediaRecorder.AudioSource.MIC);
-        rec.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        rec.setOutputFile(file.getAbsolutePath()+"/"+sdf+"rec.3gp");
-        Log.e("REC1",file.getAbsolutePath()+"/"+sdf+"rec.3gp");
-        rec.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+
         audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
         TelephonyManager manager=(TelephonyManager)getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
         manager.listen(new PhoneStateListener() {
@@ -52,30 +46,42 @@ public class RecordingService extends Service {
                                //super.onCallStateChanged(state, incomingNumber); {
                                    if (TelephonyManager.CALL_STATE_IDLE == state ) {
                                        Log.e("1","check");
-                                       if(recordstarted) {
-                                           recordstarted = false;
-                                           rec.stop();
-                                           audioManager.setMode(AudioManager.MODE_NORMAL);
-                                           Log.e("REC4", "stopped");
-                                           rec.reset();
-                                           Log.e("REC5", "reset");
-                                           rec.release();
-                                           Log.e("REC6", "release");
-                                           recordstarted = false;
-                                           Log.e("REC7", "stopped");
+                                       if(rec != null) {
+                                           if (recordstarted) {
+                                               recordstarted = false;
+                                               rec.stop();
+                                               audioManager.setMode(AudioManager.MODE_NORMAL);
+                                               Log.e("REC4", "stopped");
+                                               rec.reset();
+                                               Log.e("REC5", "reset");
+                                               rec.release();
+                                               Log.e("REC6", "release");
+                                               recordstarted = false;
+                                               Log.e("REC7", "stopped");
 
-                                           stopSelf();
+                                               stopSelf();
 
+                                           }
                                        }
 
                                    } else if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
                                        Log.e("2","check");
+                                       Date date=new Date();
+                                       sdf = DateFormat.format("MM-dd-YY-hh-mm-ss",date.getTime());
+                                       rec=new MediaRecorder();
+                                       sdf = incomingNumber+sdf;
+                                       rec.setAudioSource(MediaRecorder.AudioSource.MIC);
+                                       rec.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                                       rec.setOutputFile(file.getAbsolutePath()+"/"+sdf+"rec.3gp");
+                                       Log.e("REC1",file.getAbsolutePath()+"/"+sdf+"rec.3gp");
+                                       rec.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                                        try {
                                            rec.prepare();
                                            Log.e("REC2","prepare");
                                        } catch (IOException e) {
                                            e.printStackTrace();
                                        }
+
                                        audioManager.setMode(AudioManager.MODE_IN_CALL);
                                        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), 0);
                                        rec.start();
