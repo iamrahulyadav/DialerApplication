@@ -28,6 +28,7 @@ public class RecordingService extends Service {
     private File file;
     CharSequence sdf;
     String path="sdcard/alarms/";
+    CharSequence timeValue = "";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -60,6 +61,9 @@ public class RecordingService extends Service {
                                                Log.e("REC7", "stopped");
 
                                                stopSelf();
+                                               Intent i = new Intent(getApplicationContext(),Call_Details.class);
+                                               i.putExtra("TimeValue",timeValue.toString());
+                                               startActivity(i);
 
                                            }
                                        }
@@ -68,6 +72,7 @@ public class RecordingService extends Service {
                                        Log.e("2","check");
                                        Date date=new Date();
                                        sdf = DateFormat.format("MM-dd-YY-hh-mm-ss",date.getTime());
+                                       timeValue = DateFormat.format("hh-mm-ss",date.getTime());
                                        rec=new MediaRecorder();
                                        sdf = incomingNumber+sdf;
                                        rec.setAudioSource(MediaRecorder.AudioSource.MIC);

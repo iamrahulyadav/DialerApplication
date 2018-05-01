@@ -41,6 +41,7 @@ public class Missed_Call extends AppCompatActivity  {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,8 +151,8 @@ public class Missed_Call extends AppCompatActivity  {
            // line.setLayoutParams(lp1);
             //line.setBackgroundColor(Color.rgb(51, 51, 51));
             //stk.addView(line);
-            TableRow tbrow = new TableRow(this);
-            tbrow.setBackground(getResources().getDrawable(R.drawable.selector_focus));
+            final TableRow tbrow = new TableRow(this);
+            //tbrow.setBackground(getResources().getDrawable(R.drawable.selector_focus));
             lp.weight=1;
             TextView t1v = new TextView(this);
             t1v.setLayoutParams(lp);
@@ -176,6 +177,7 @@ public class Missed_Call extends AppCompatActivity  {
                     TextView tv = (TextView) v;
                     editor.putString("id",j);
                     editor.apply();
+                    tbrow.setBackgroundColor(getResources().getColor(R.color.lightPink));
                     //askPermissionForCall(tv.getText().toString());
                     Contact_Us contact_us = new Contact_Us(getApplicationContext());
                     contact_us.callNow(tv.getText().toString());
@@ -206,6 +208,8 @@ public class Missed_Call extends AppCompatActivity  {
                 @Override
                 public void onClick(View v) {
                     TextView tv = (TextView)v;
+                    editor.putString("id",j);
+                    editor.apply();
                    Intent i = new Intent(Missed_Call.this,Call_Details.class);
                     startActivity(i);
 

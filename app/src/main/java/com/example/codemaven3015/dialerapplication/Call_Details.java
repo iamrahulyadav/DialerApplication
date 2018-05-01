@@ -48,6 +48,8 @@ public class Call_Details extends AppCompatActivity {
         number1 = findViewById(R.id.number);
         callStartTime = findViewById(R.id.callStartTime);
         callDuration1 = findViewById(R.id.callDuration);
+        String TimeValue = getIntent().getStringExtra("TimeValue").toString();
+        callStartTime.setText("Call Start Time:- "+TimeValue);
         sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         date1 = findViewById(R.id.date);
@@ -66,7 +68,7 @@ public class Call_Details extends AppCompatActivity {
         callLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                status=1;
+                status=2;
                 changeFocusOnClickButton();
             }
         });
@@ -74,7 +76,7 @@ public class Call_Details extends AppCompatActivity {
         notInterested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                status=2;
+                status=3;
                 changeFocusOnClickButton();
             }
         });
@@ -82,7 +84,7 @@ public class Call_Details extends AppCompatActivity {
         interested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                status=3;
+                status=4;
                 changeFocusOnClickButton();
             }
         });
@@ -90,7 +92,7 @@ public class Call_Details extends AppCompatActivity {
         notPicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                status=4;
+                status=5;
                 changeFocusOnClickButton();
             }
         });
@@ -151,25 +153,25 @@ public class Call_Details extends AppCompatActivity {
 
     private void changeFocusOnClickButton()
  {
-    if(status==1)
+    if(status==2)
     {
         callLater.setBackgroundColor(getResources().getColor(R.color.greenLight));
         notInterested.setBackgroundColor(getResources().getColor(R.color.green));
         interested.setBackgroundColor(getResources().getColor(R.color.green));
        notPicked.setBackgroundColor(getResources().getColor(R.color.green));
-    }else if(status==2)
+    }else if(status==3)
      {
          callLater.setBackgroundColor(getResources().getColor(R.color.green));
          notInterested.setBackgroundColor(getResources().getColor(R.color.greenLight));
          interested.setBackgroundColor(getResources().getColor(R.color.green));
          notPicked.setBackgroundColor(getResources().getColor(R.color.green));
-     }else if(status==3)
+     }else if(status==4)
      {
          callLater.setBackgroundColor(getResources().getColor(R.color.green));
          notInterested.setBackgroundColor(getResources().getColor(R.color.green));
          interested.setBackgroundColor(getResources().getColor(R.color.greenLight));
          notPicked.setBackgroundColor(getResources().getColor(R.color.green));
-     }else if(status==4)
+     }else if(status==5)
      {
          callLater.setBackgroundColor(getResources().getColor(R.color.green));
          notInterested.setBackgroundColor(getResources().getColor(R.color.green));
