@@ -199,22 +199,23 @@ public class Missed_Call extends AppCompatActivity  {
             t4v.setLayoutParams(lp);
 
            t4v.setText(obj.getString("status"));
+
             //t4v.setText("Update Status");
             t4v.setTextColor(Color.BLUE);
             t4v.setGravity(Gravity.CENTER);
             t4v.setPadding(0,30,0,30);
             t4v.setBackground(getResources().getDrawable(R.drawable.border));
-            t4v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView tv = (TextView)v;
-                    editor.putString("id",j);
-                    editor.apply();
-                   Intent i = new Intent(Missed_Call.this,Call_Details.class);
-                    startActivity(i);
-
-                }
-            });
+//            t4v.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    TextView tv = (TextView)v;
+//                    editor.putString("id",j);
+//                    editor.apply();
+//                   Intent i = new Intent(Missed_Call.this,Call_Details.class);
+//                    startActivity(i);
+//
+//                }
+//            });
             tbrow.addView(t4v);
             stk.addView(tbrow);
         }
