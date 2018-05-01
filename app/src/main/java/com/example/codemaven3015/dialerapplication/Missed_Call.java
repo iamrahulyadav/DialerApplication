@@ -199,9 +199,37 @@ public class Missed_Call extends AppCompatActivity  {
             t4v.setLayoutParams(lp);
 
            t4v.setText(obj.getString("status"));
-
-            //t4v.setText("Update Status");
+           String status=(obj.getString("status"));
             t4v.setTextColor(Color.BLUE);
+            if((status.equals("1")))
+            {
+                t4v.setText("Not Attended");
+                t4v.setTextColor(Color.RED);
+            }
+               else if((status.equals("2")))
+                {
+                    t4v.setText("Not Picked");
+                    t4v.setTextColor(getResources().getColor(R.color.mergenta));
+                }
+
+                else if(status.equals("3"))
+            {
+                t4v.setText("Interested");
+                t4v.setTextColor(getResources().getColor(R.color.green));
+            }
+
+            else if(status.equals("4"))
+            {
+                t4v.setText("Not Interested");
+            }
+
+            else if(status.equals("5"))
+            {
+                t4v.setText("Call Later");
+                t4v.setTextColor(getResources().getColor(R.color.colorAccent));
+            }
+            //t4v.setText("Update Status");
+
             t4v.setGravity(Gravity.CENTER);
             t4v.setPadding(0,30,0,30);
             t4v.setBackground(getResources().getDrawable(R.drawable.border));
