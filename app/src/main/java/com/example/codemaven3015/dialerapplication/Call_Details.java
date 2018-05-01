@@ -65,7 +65,7 @@ public class Call_Details extends AppCompatActivity {
         notInterested=findViewById(R.id.notInterested);
         interested=findViewById(R.id.interested);
         notPicked=findViewById(R.id.notPicked);
-        callLater.setOnClickListener(new View.OnClickListener() {
+        notPicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 status=2;
@@ -73,7 +73,7 @@ public class Call_Details extends AppCompatActivity {
             }
         });
 
-        notInterested.setOnClickListener(new View.OnClickListener() {
+        interested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 status=3;
@@ -81,7 +81,7 @@ public class Call_Details extends AppCompatActivity {
             }
         });
 
-        interested.setOnClickListener(new View.OnClickListener() {
+        notInterested.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 status=4;
@@ -89,7 +89,7 @@ public class Call_Details extends AppCompatActivity {
             }
         });
 
-        notPicked.setOnClickListener(new View.OnClickListener() {
+        callLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 status=5;
