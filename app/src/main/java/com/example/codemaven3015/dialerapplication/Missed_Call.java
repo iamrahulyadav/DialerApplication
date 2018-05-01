@@ -1,10 +1,13 @@
 package com.example.codemaven3015.dialerapplication;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +38,8 @@ import org.json.JSONObject;
 public class Missed_Call extends AppCompatActivity  {
 
     String phone_number = "";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class Missed_Call extends AppCompatActivity  {
         setContentView(R.layout.activity_missed__call);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         setLogoutClick();
         callMissCallAPI();
 
@@ -133,6 +140,7 @@ public class Missed_Call extends AppCompatActivity  {
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
         for (int i = 0; i < jsonArray.length(); i++) {
+
             JSONObject obj = jsonArray.getJSONObject(i);
 
             TableRow tBLine = new TableRow(this);
@@ -143,6 +151,7 @@ public class Missed_Call extends AppCompatActivity  {
             //line.setBackgroundColor(Color.rgb(51, 51, 51));
             //stk.addView(line);
             TableRow tbrow = new TableRow(this);
+            tbrow.setBackground(getResources().getDrawable(R.drawable.selector_focus));
             lp.weight=1;
             TextView t1v = new TextView(this);
             t1v.setLayoutParams(lp);
@@ -156,6 +165,7 @@ public class Missed_Call extends AppCompatActivity  {
             t2v.setLayoutParams(lp);
             //t2v.setText("989898989" + i);
             t2v.setText(obj.getString("phone"));
+            final String j = obj.getString("contactId");
             t2v.setTextColor(Color.BLUE);
             t2v.setGravity(Gravity.CENTER);
             t2v.setPadding(0,30,0,30);
@@ -164,6 +174,8 @@ public class Missed_Call extends AppCompatActivity  {
                 @Override
                 public void onClick(View v) {
                     TextView tv = (TextView) v;
+                    editor.putString("id",j);
+                    editor.apply();
                     //askPermissionForCall(tv.getText().toString());
                     Contact_Us contact_us = new Contact_Us(getApplicationContext());
                     contact_us.callNow(tv.getText().toString());
@@ -184,8 +196,8 @@ public class Missed_Call extends AppCompatActivity  {
             TextView t4v = new TextView(this);
             t4v.setLayoutParams(lp);
 
-           // t4v.setText(obj.getString("status"));
-            t4v.setText("Update Status");
+           t4v.setText(obj.getString("status"));
+            //t4v.setText("Update Status");
             t4v.setTextColor(Color.BLUE);
             t4v.setGravity(Gravity.CENTER);
             t4v.setPadding(0,30,0,30);

@@ -1,7 +1,9 @@
 package com.example.codemaven3015.dialerapplication;
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -35,6 +37,8 @@ public class Call_Details extends AppCompatActivity {
     int status=0;
     TextView number1, callStartTime, callDuration1, date1;
     Button submit,callLater,notInterested,interested,notPicked;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -44,6 +48,8 @@ public class Call_Details extends AppCompatActivity {
         number1 = findViewById(R.id.number);
         callStartTime = findViewById(R.id.callStartTime);
         callDuration1 = findViewById(R.id.callDuration);
+        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         date1 = findViewById(R.id.date);
         LastCall();
         setBuutonIds();
@@ -133,7 +139,7 @@ public class Call_Details extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contactid", "5");
+                params.put("contactid", sharedPreferences.getString("id",""));
                 params.put("status",status+"");
                 return params;
             }
