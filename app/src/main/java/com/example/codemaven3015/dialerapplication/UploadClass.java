@@ -5,6 +5,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 
 import okhttp3.MediaType;
@@ -40,9 +43,12 @@ public class UploadClass {
         File videoFile = new File(path);
         RequestBody videoBody = RequestBody.create(MediaType.parse("audio/*"), videoFile);
         MultipartBody.Part vFile = MultipartBody.Part.createFormData("file", videoFile.getName(), videoBody);
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.121:8888/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://192.168.0.128:8888/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         VideoInterface vInterface = retrofit.create(VideoInterface.class);
         String descriptionString = "hello, this is description speaking";
@@ -53,15 +59,13 @@ public class UploadClass {
         serverCom.enqueue(new Callback<ResultObject>() {
             @Override
             public void onResponse(Call<ResultObject> call, Response<ResultObject> response) {
-                ResultObject result = response.body();
+                 ResultObject result = response.body();
                   if(result != null) {
-                    if (!TextUtils.isEmpty(result.getSuccess())) {
-                        Toast.makeText(context, "Result " + result.getSuccess(), Toast.LENGTH_LONG).show();
-                        Log.d("check", "Result " + result.getSuccess());
-                        if(!id.equals("")){
-                            db.updateFlag(id);
-                        }
-                    }
+                      Toast.makeText(context, "Result " + result.getSuccess(), Toast.LENGTH_LONG).show();
+                      Log.d("check", "Result " + result.getSuccess());
+                      if(!id.equals("")){
+                          db.updateFlag(id);
+                      }
                 }
             }
 

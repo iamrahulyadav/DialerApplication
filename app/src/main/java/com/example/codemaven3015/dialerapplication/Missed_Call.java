@@ -74,7 +74,7 @@ public class Missed_Call extends AppCompatActivity  {
 
     private void callMissCallAPI() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url ="http://192.168.0.121:8888/Dialer_service/REST/webservice/GetContactDetail";
+        String url ="http://192.168.0.128:8888/Dialer_service/REST/webservice/GetContactDetail";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
