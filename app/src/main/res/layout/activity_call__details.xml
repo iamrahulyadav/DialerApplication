@@ -5,7 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.codemaven3015.dialerapplication.Call_Details">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp">
+
+        <include
+            layout="@layout/tool_bar" />
+    </android.support.v7.widget.Toolbar>
     <ScrollView
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -62,18 +81,19 @@
                 android:textSize="@dimen/mediumFontL" />
 
             <Button
-                android:layout_marginTop="30dp"
+                android:id="@+id/uploadFileToserver"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Call Recording"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:background="@color/white"
                 android:gravity="center"
                 android:padding="8dp"
-                android:layout_gravity="center"
+                android:text="Call Recording"
                 android:textAlignment="center"
-                android:textSize="@dimen/largeFont"
-                android:textColor="@color/black"
 
-                android:background="@color/white"/>
+                android:textColor="@color/black"
+                android:textSize="@dimen/largeFont" />
 
             <LinearLayout
                 android:layout_width="match_parent"

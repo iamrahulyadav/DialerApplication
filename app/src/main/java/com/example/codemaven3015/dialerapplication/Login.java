@@ -112,7 +112,7 @@ public class Login extends AppCompatActivity {
 
     private void loginServiceCall() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://192.168.101.179:8888/Dialer_service/REST/WebService/login";
+        String url = "http://192.168.0.121:8888/Dialer_service/REST/WebService/login";
         StringRequest jsonObjRequest = new StringRequest(Request.Method.POST,
                 url,
                 new Response.Listener<String>() {

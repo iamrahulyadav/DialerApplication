@@ -12,12 +12,12 @@
         <item
             android:id="@+id/nav_synch"
             android:icon="@drawable/synch"
-            android:title="Synch" /></group>
+            android:title="Synch Now" /></group>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/settings"
-            android:title="Setting" /></group>
+            android:title="Synch Setting" /></group>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"

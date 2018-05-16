@@ -1,7 +1,9 @@
 package com.example.codemaven3015.dialerapplication;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -27,8 +29,11 @@ public class RecordingService extends Service {
     private boolean recordstarted = false;
     private File file;
     CharSequence sdf;
-    String path="sdcard/alarms/";
+    String path="";
     CharSequence timeValue = "";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    DataBaseHelper db;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,6 +41,9 @@ public class RecordingService extends Service {
     }
 
     public int onStartCommand(Intent intent,int flags,int startId) {
+        sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        db = new DataBaseHelper(getApplicationContext());
 
       file= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
@@ -59,10 +67,14 @@ public class RecordingService extends Service {
                                                Log.e("REC6", "release");
                                                recordstarted = false;
                                                Log.e("REC7", "stopped");
+                                               if(!path.isEmpty()) {
+                                                   db.updatetableRecording(path, 0);
+                                               }
 
                                                stopSelf();
                                                Intent i = new Intent(getApplicationContext(),Call_Details.class);
                                                i.putExtra("TimeValue",timeValue.toString());
+                                               i.putExtra("path",path);
                                                startActivity(i);
 
                                            }
@@ -74,10 +86,12 @@ public class RecordingService extends Service {
                                        sdf = DateFormat.format("MM-dd-YY-hh-mm-ss",date.getTime());
                                        timeValue = DateFormat.format("hh-mm-ss",date.getTime());
                                        rec=new MediaRecorder();
-                                       sdf = incomingNumber+sdf;
+                                       sdf = sharedPreferences.getString("phone","")+sdf;
                                        rec.setAudioSource(MediaRecorder.AudioSource.MIC);
                                        rec.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
                                        rec.setOutputFile(file.getAbsolutePath()+"/"+sdf+"rec.3gp");
+                                       path = file.getAbsolutePath()+"/"+sdf+"rec.3gp";
+
                                        Log.e("REC1",file.getAbsolutePath()+"/"+sdf+"rec.3gp");
                                        rec.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                                        try {

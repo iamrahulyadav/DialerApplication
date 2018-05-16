@@ -74,7 +74,7 @@ public class Missed_Call extends AppCompatActivity  {
 
     private void callMissCallAPI() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url ="http://192.168.101.179:8888/Dialer_service/REST/webservice/GetContactDetail";
+        String url ="http://192.168.0.121:8888/Dialer_service/REST/webservice/GetContactDetail";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -166,6 +166,7 @@ public class Missed_Call extends AppCompatActivity  {
             t2v.setLayoutParams(lp);
             //t2v.setText("989898989" + i);
             t2v.setText(obj.getString("phone"));
+            final String phone = obj.getString("phone");
             final String j = obj.getString("contactId");
             t2v.setTextColor(Color.BLUE);
             t2v.setGravity(Gravity.CENTER);
@@ -176,6 +177,7 @@ public class Missed_Call extends AppCompatActivity  {
                 public void onClick(View v) {
                     TextView tv = (TextView) v;
                     editor.putString("id",j);
+                    editor.putString("phone",phone);
                     editor.apply();
                     tbrow.setBackgroundColor(getResources().getColor(R.color.lightPink));
                     //askPermissionForCall(tv.getText().toString());

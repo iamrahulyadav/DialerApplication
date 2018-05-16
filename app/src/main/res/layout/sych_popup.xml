@@ -49,12 +49,13 @@
         android:textSize="@dimen/largeFont"
         android:gravity="center"
         />
+
     <Switch
+        android:id="@+id/syncOnOff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:thumbTint="@color/blue"
-        />
+        android:thumbTint="@color/blue" />
     <Button
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
