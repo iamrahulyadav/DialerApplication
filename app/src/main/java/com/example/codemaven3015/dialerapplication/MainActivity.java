@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_missed) {
             i = new Intent(MainActivity.this,Missed_Call.class);
             startActivity(i);
-        } else if (id == R.id.action_settings) {
+        } else if (id == R.id.nav_setting) {
             View popupView = getLayoutInflater().inflate(R.layout.sych_popup,
                     null);
 
