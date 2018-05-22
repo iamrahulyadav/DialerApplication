@@ -141,8 +141,10 @@ public class Missed_Call extends AppCompatActivity  {
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
         for (int i = 0; i < jsonArray.length(); i++) {
-
             JSONObject obj = jsonArray.getJSONObject(i);
+            String status=(obj.getString("status"));
+            if(!status.equals("1"))
+                continue;
 
             TableRow tBLine = new TableRow(this);
             //View line = new View(this);
@@ -200,8 +202,8 @@ public class Missed_Call extends AppCompatActivity  {
             TextView t4v = new TextView(this);
             t4v.setLayoutParams(lp);
 
-           t4v.setText(obj.getString("status"));
-           String status=(obj.getString("status"));
+           //t4v.setText(obj.getString("status"));
+
             t4v.setTextColor(Color.BLUE);
             if((status.equals("1")))
             {

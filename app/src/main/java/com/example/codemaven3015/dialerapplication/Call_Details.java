@@ -13,37 +13,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONObject;
-
-import java.io.File;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Call_Details extends AppCompatActivity {
     int status=0;
@@ -74,7 +61,7 @@ public class Call_Details extends AppCompatActivity {
         date1 = findViewById(R.id.date);
         LastCall();
         setBuutonIds();
-        setuploadFunction();
+        //  setuploadFunction();
 
     }
 
@@ -149,57 +136,70 @@ public class Call_Details extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //serviceCallforSatusUpdate();
+                serviceCallforSatusUpdate();
             }
         });
     }
 
-//    private void serviceCallforSatusUpdate() {
-//        String url = "http://192.168.101.179:8888/Dialer_service/REST/webservice/updateStatus";
-//        RequestQueue requestQueue= Volley.newRequestQueue(this);
-//        StringRequest jsonObjectRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response)
-//            {
-//                Log.e("success",response.toString());
-//
-//                if(response.equals("\"status updated\"")){
-//                    //showMessage = new ShowMessage("Error","Wrong Username or password",getApplicationContext());
-//                    //showMessage.showMessage();
-//                    showMessage("Success","Status Updated");
-//
-//
-//                }else {
-//                    //showMessage = new ShowMessage("Error","Wrong Username or password",getApplicationContext());
-//                    //showMessage.showMessage();
-//                    showMessage("Error","Status not Updated");
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error)
-//            {
-//                Log.e("error",error.toString());
-//            }
-//        }) {
-//
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/x-www-form-urlencoded; charset=UTF-8";
-//            }
-//
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("contactid", sharedPreferences.getString("id",""));
-//                params.put("status",status+"");
-//                return params;
-//            }
-//
-//        };
-//        requestQueue.add(jsonObjectRequest);
-//
-//    }
+    private void serviceCallforSatusUpdate() {
+        String url = "http://192.168.101.179:8888/Dialer_service/REST/webservice/updateStatus";
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        StringRequest jsonObjectRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+                Log.e("success",response.toString());
+
+                if(response.equals("\"status updated\"")){
+                    //showMessage = new ShowMessage("Error","Wrong Username or password",getApplicationContext());
+                    //showMessage.showMessage();
+                    showAlertMessage showAlertMessage = new showAlertMessage(getApplicationContext(),"Status Updated \n Do you want to upload the recording?","Success");
+                    showAlertMessage.showMessageWithYesAndNo(new showAlertMessage.YesAlertCallback() {
+                        @Override
+                        public void yesFunction() {
+                            String path = getIntent().getStringExtra("path");
+                            if(!path.equals("")){
+                                uploadVideoToServer(path);
+
+                            }else{
+                                showMessage("info","no file to upload");
+                            }
+
+                        }
+                    });
+
+
+                }else {
+                    //showMessage = new ShowMessage("Error","Wrong Username or password",getApplicationContext());
+                    //showMessage.showMessage();
+                    showMessage("Error","Status not Updated");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Log.e("error",error.toString());
+            }
+        }) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("contactid", sharedPreferences.getString("id",""));
+                params.put("status",status+"");
+                return params;
+            }
+
+        };
+        requestQueue.add(jsonObjectRequest);
+
+    }
 
     private void changeFocusOnClickButton()
  {

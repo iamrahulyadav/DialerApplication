@@ -60,7 +60,7 @@ public class UploadClass {
             @Override
             public void onResponse(Call<ResultObject> call, Response<ResultObject> response) {
                  ResultObject result = response.body();
-                  if(result != null) {
+                   if(result != null) {
                       Toast.makeText(context, "Result " + result.getSuccess(), Toast.LENGTH_LONG).show();
                       Log.d("check", "Result " + result.getSuccess());
                       if(!id.equals("")){
