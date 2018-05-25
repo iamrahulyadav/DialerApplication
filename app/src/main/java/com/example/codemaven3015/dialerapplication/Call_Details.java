@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;

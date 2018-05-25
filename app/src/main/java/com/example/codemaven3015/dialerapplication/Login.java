@@ -1,6 +1,7 @@
 package com.example.codemaven3015.dialerapplication;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
     String userName = "", password = "";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    ProgressDialog dialog;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -49,6 +51,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        dialog = new ProgressDialog(this);
         sharedPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         userNameEditText = findViewById(R.id.userNameEditText);
@@ -111,6 +114,8 @@ public class Login extends AppCompatActivity {
 
 
     private void loginServiceCall() {
+        dialog.setMessage("please wait....");
+        dialog.show();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = "http://192.168.0.128:8888/Dialer_service/REST/WebService/login";
         StringRequest jsonObjRequest = new StringRequest(Request.Method.POST,
@@ -118,6 +123,7 @@ public class Login extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        dialog.dismiss();
                         Log.e("my app", "123"+response);
                         if(response.equals("\"success\"")){
                             Intent i = new Intent(Login.this, Missed_Call.class);
@@ -133,6 +139,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
                 Log.e("my app1","error");
 
             }
