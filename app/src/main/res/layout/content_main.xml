@@ -8,4 +8,31 @@
     tools:context="com.example.codemaven3015.dialerapplication.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome To Dashboard"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            android:textSize="20dp"/>
+
+    <LinearLayout
+        android:layout_below="@+id/text"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_centerInParent="true"
+        android:id="@+id/linear">
+
+    </LinearLayout>
+</RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

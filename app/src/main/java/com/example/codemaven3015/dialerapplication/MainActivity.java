@@ -23,6 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TableLayout;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +37,17 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DataBaseHelper db;
+    float values[] = {300, 400, 100, 500};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout linear = (LinearLayout) findViewById(R.id.linear);
+        values = calculateData(values);
+        linear.addView(new MyGraphview(this, values));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         db = new DataBaseHelper(this);
@@ -48,6 +60,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //onclickSyncOnOff(true);
+    }
+
+    private float[] calculateData(float[] data) {
+        float total = 0;
+        for (int i = 0; i < data.length; i++) {
+            total += data[i];
+        }
+        for (int i = 0; i < data.length; i++) {
+            data[i] = 360 * (data[i] / total);
+        }
+        return data;
     }
 
     @Override
@@ -76,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_missed) {
-            i = new Intent(MainActivity.this,Missed_Call.class);
+            i = new Intent(MainActivity.this, Missed_Call.class);
             startActivity(i);
         } else if (id == R.id.nav_setting) {
             View popupView = getLayoutInflater().inflate(R.layout.sych_popup,
@@ -87,10 +110,10 @@ public class MainActivity extends AppCompatActivity
             int width = displayMetrics.widthPixels;
             PopupWindow popupWindow = new PopupWindow(
                     popupView,
-                    (width/3)*2,
+                    (width / 3) * 2,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            Switch syncOnOff =  popupView.findViewById(R.id.syncOnOff);
+            Switch syncOnOff = popupView.findViewById(R.id.syncOnOff);
             syncOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -105,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_synch) {
 
-             onclickSync();
+            onclickSync();
 
         } else if (id == R.id.nav_logout) {
 
@@ -115,7 +138,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void onclickSyncOnOff(Boolean isChecked){
+
+    public void onclickSyncOnOff(Boolean isChecked) {
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
@@ -127,10 +151,11 @@ public class MainActivity extends AppCompatActivity
         };
         Thread thread = new Thread(runnable);
         handler.postDelayed(runnable, 3000);
-        if(isChecked){
+        if (isChecked) {
             thread.start();
 
-        }else {
+        } else {
+
             thread.stop();
         }
 
@@ -139,18 +164,18 @@ public class MainActivity extends AppCompatActivity
     private void onclickSync() {
         try {
             JSONArray listPath = db.getAllPathsNonUploaded();
-            if(listPath.length()>0){
-                for(int i = 0;i<listPath.length();i++){
+            if (listPath.length() > 0) {
+                for (int i = 0; i < listPath.length(); i++) {
                     JSONObject jsonObject = new JSONObject();
                     String path = jsonObject.getString("path");
-                    String id= jsonObject.getString("id");
-                    UploadClass uploadClass = new UploadClass(this,path,id);
+                    String id = jsonObject.getString("id");
+                    UploadClass uploadClass = new UploadClass(this, path, id);
                     uploadClass.uploadVideoToServer();
                 }
 
-            }else{
+            } else {
                 db.deleteTableEntries();
-                showMessage("Info","Nothing to sync");
+                showMessage("Info", "Nothing to sync");
             }
 
         } catch (JSONException e) {
@@ -160,7 +185,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void showMessage(String title,String message){
+    public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
@@ -171,10 +196,43 @@ public class MainActivity extends AppCompatActivity
         dialog1.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                Window view = ((AlertDialog)dialog).getWindow();
+                Window view = ((AlertDialog) dialog).getWindow();
                 view.setBackgroundDrawableResource(R.color.white);
             }
         });
         dialog1.show();
+    }
+
+    public class MyGraphview extends View {
+        private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private float[] value_degree;
+        private int[] COLORS = {Color.BLUE, Color.GREEN, Color.GRAY, Color.CYAN, Color.RED};
+        RectF rectf = new RectF(10, 10, 400, 400);
+        int temp = 0;
+
+        public MyGraphview(Context context, float[] values) {
+            super(context);
+            value_degree = new float[values.length];
+            for (int i = 0; i < values.length; i++) {
+                value_degree[i] = values[i];
+            }
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            // TODO Auto-generated method stub
+            super.onDraw(canvas);
+
+            for (int i = 0; i < value_degree.length; i++) {//values2.length; i++) {
+                if (i == 0) {
+                    paint.setColor(COLORS[i]);
+                    canvas.drawArc(rectf, 0, value_degree[i], true, paint);
+                } else {
+                    temp += (int) value_degree[i - 1];
+                    paint.setColor(COLORS[i]);
+                    canvas.drawArc(rectf, temp, value_degree[i], true, paint);
+                }
+            }
+        }
     }
 }
