@@ -207,7 +207,9 @@ public class MainActivity extends AppCompatActivity
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private float[] value_degree;
         private int[] COLORS = {Color.BLUE, Color.GREEN, Color.GRAY, Color.CYAN, Color.RED};
-        RectF rectf = new RectF(10, 10, 400, 400);
+        float density = getApplicationContext().getResources().getDisplayMetrics().density;
+        float px = 300 * density;
+        RectF rectf = new RectF(0, 0, px, px);
         int temp = 0;
 
         public MyGraphview(Context context, float[] values) {
